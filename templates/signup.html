@@ -1,0 +1,39 @@
+{% from 'bootstrap/form.html' import render_form %}
+{% include 'header.html' %}
+
+
+
+    <header class="masthead" style="background-image: url('../static/assets/img/about-bg.jpg')">
+        <div class="container position-relative px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="page-heading">
+                        <h1>Signup</h1>
+                        <span class="subheading">Signup to be a part of our community.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-3"></div>
+            <div class="col-6 mb-5">
+                {% if current_user.is_authenticated %}
+                    <h3 class="my-5">You are already Signed Up! Check out the latest blogs
+                        <a href="{{ url_for('home') }}" class="text-decoration-underline">here</a>
+                    </h3>
+                {% else %}
+                    {% for message in get_flashed_messages() %}
+                        {% if message %}
+                            <p class="flash">{{ message }}</p>
+                        {% endif %}
+                    {% endfor %}
+                    {{ render_form(form, novalidate=True) }}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+{% include 'footer.html' %}

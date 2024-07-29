@@ -1,0 +1,51 @@
+{% from 'bootstrap/form.html' import render_form %}
+{% include 'header.html' %}
+        <!-- Page Header-->
+        <header class="masthead" style="background-image: url({{ post.image_url }})">
+            <div class="container position-relative px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <div class="post-heading">
+                            <h1>{{ post.title }}</h1>
+                            <h2 class="subheading">{{ post.subtitle }}</h2>
+                            <span class="meta">
+                                Posted by
+                                <a href="#">{{ post.author }}</a>
+                                on {{ post.date }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- Post Content-->
+        <article class="mb-4">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        {{ post.body | safe }}
+                        <hr>
+                        {% if current_user.is_authenticated %}
+                            {{ ckeditor.load() }}
+                            {{ ckeditor.config(type='basic') }}
+                            {{ render_form(form) }}
+                        {% endif %}
+                        <ul class="commentList">
+                            <h4 class="comments mt-3">Comments</h4>
+                            {% for comment in post.comments %}
+                                <li class="commentText px-2 py-0 list-unstyled">{{ comment.comment_text | safe }}</li>
+                                <span class="date sub-text mt-0 py-0 px-3">posted by <em>{{ comment.comment_author }}</em></span>
+                            {% endfor %}
+                        </ul>
+                        {% if current_user.id == 1 %}
+                        <div class="d-flex justify-content-end mb-4">
+                            <a class="btn btn-primary text-uppercase bg-dark border-2 border-warning p-2" href="{{ url_for('edit_post', post_id=post.id) }}">
+                            Edit Post →
+                        </a></div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </article>
+        <!-- Footer-->
+{% include 'footer.html' %}
