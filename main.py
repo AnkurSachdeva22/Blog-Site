@@ -13,16 +13,15 @@ import os
 from secrets import token_hex
 from datetime import date, datetime
 
-# SMTP_USER = os.environ.get('SMTP_USER')
-# SMTP_PASSWORD = os.environ.get('SMTP_PASSWORD')
-SMTP_USER = 'sandeeptest0808@gmail.com'
-SMTP_PASSWORD = 'dckmudfxtsslhqci'
+SMTP_USER = os.environ.get('SMTP_USER')
+SMTP_PASSWORD = os.environ.get('SMTP_PASSWORD')
+
 year = datetime.today().year
 
 # Create app and contexts
 app = Flask(__name__)
 app.secret_key = token_hex(30)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///posts.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DB_URI", 'sqlite:///posts.db')
 
 
 # LOGIN MANAGER
@@ -289,5 +288,5 @@ def about():
 
 
 if __name__ == "__main__":
-    app.run(port=5025, debug=True)
+    app.run(debug=False)
 
